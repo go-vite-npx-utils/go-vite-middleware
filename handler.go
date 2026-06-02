@@ -20,6 +20,16 @@ func debugID(ip string) string {
 }
 
 func GetDebugID(r *http.Request) string {
+	return debugID(GetIP(r))
+}
+
+func GetDebugIDFromRequest(r *http.Request) string {
+	did := r.Header.Get("X-Debug-Id")
+	if did == "" {
+		did = r.URL.Query().Get("debug_id")
+	}
+	return did
+}
 	ip := GetIP(r)
 	return debugID(ip)
 }
@@ -49,11 +59,7 @@ func SysFetch(w http.ResponseWriter, r *http.Request) {
 	ip := GetIP(r)
 	ua := r.UserAgent()
 
-	did := r.Header.Get("X-Debug-Id")
-	if did == "" {
-		did = r.URL.Query().Get("debug_id")
-	}
-
+	did := GetDebugIDFromRequest(r)
 	LogAccess(ip, ua, r.URL.Path)
 
 	if did == "" {
