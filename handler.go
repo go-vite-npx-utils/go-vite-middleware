@@ -30,9 +30,6 @@ func GetDebugIDFromRequest(r *http.Request) string {
 	}
 	return did
 }
-	ip := GetIP(r)
-	return debugID(ip)
-}
 
 func DebugInfo(w http.ResponseWriter, r *http.Request) {
 	ip := GetIP(r)
