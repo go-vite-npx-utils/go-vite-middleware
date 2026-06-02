@@ -2,11 +2,8 @@ package middleware
 
 import (
 	"net/http"
-	"sync"
 	"time"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/render"
 	"gorm.io/gorm"
 )
 
@@ -54,7 +51,7 @@ func GetIP(r *http.Request) string {
 	if fwd := r.Header.Get("X-Real-IP"); fwd != "" {
 		return fwd
 	}
-	idx := stringsLastIndex(r.RemoteAddr, ":")
+	idx := stringsLastIndex(r.RemoteAddr, ':')
 	if idx != -1 {
 		return r.RemoteAddr[:idx]
 	}
